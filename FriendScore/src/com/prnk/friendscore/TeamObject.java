@@ -1,6 +1,7 @@
 package com.prnk.friendscore;
 
 public class TeamObject {
+	private int id;
 	private String name;
 	private ScoreObject score;
 	private final String defaultString = "Name";
@@ -24,6 +25,14 @@ public class TeamObject {
 	
 	public void SetName(String name) {
 		this.name = name;
+	}
+	
+	public int GetId(){
+		return this.id;
+	}
+	
+	public void SetID(int identifier){
+		this.id = identifier;
 	}
 	
 	public void SetScore(int score) {
