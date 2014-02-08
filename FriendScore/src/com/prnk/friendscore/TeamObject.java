@@ -3,9 +3,10 @@ package com.prnk.friendscore;
 public class TeamObject {
 	private String name;
 	private ScoreObject score;
+	private final String defaultString = "Name";
 	
 	public TeamObject() {
-		this.name = "@string/new_team";
+		this.name = defaultString;
 		this.score = new ScoreObject();
 	}
 	
