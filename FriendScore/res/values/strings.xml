@@ -4,5 +4,6 @@
     <string name="app_name">FriendScore</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+	<string name="new_title">Title</string>
+	<string name="new_team">Team Name</string>
 </resources>
