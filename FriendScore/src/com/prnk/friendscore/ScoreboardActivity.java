@@ -1,5 +1,8 @@
 package com.prnk.friendscore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +31,15 @@ public class ScoreboardActivity extends Activity {
         
         Button newGameButton = (Button)findViewById(R.id.addNewGame);
         newGameButton.setOnClickListener(newGameButtonListener);
+        
+        //List of games that current user is part of
+        List<GameObject> games;
+        
+        //Some method to pull from db the list of games
+        //games = GetGamesForUser(int userID)
+        
+        //populates list of games with some dummy data
+        games = this.GetTestGames();
     }
 
 
@@ -36,6 +48,13 @@ public class ScoreboardActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.scoreboard, menu);
         return true;
+    }
+    
+    public List<GameObject> GetTestGames() {
+    	List<GameObject> games = new ArrayList<GameObject>();
+    	
+    	return games;
+    	
     }
     
 }
