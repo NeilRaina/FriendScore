@@ -4,12 +4,9 @@
     <string name="app_name">FriendScore</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-<<<<<<< Updated upstream
 	<string name="new_title">Title</string>
 	<string name="new_team">Team Name</string>
-=======
     <string name="scoreboardTitle">Scoreboard</string>
     <string name="scoreboardNewGame">New Game</string>
 
->>>>>>> Stashed changes
 </resources>
