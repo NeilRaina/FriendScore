@@ -24,7 +24,6 @@ public class ScoreboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scoreboard);
-        
         getActionBar().setTitle(R.string.scoreboardTitle);
         
         Button newGameButton = (Button)findViewById(R.id.addNewGame);

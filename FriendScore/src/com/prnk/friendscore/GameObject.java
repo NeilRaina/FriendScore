@@ -5,9 +5,10 @@ import java.util.ArrayList;
 public class GameObject {
 	private String title;
 	private ArrayList<TeamObject> teams;
-	
+	private final String defaultTitle = "Title";
+
 	public GameObject() {
-		this.title = "@string/new_title";
+		this.title = defaultTitle;
 		this.teams = new ArrayList<TeamObject>();
 	}
 	
