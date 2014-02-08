@@ -1,7 +1,7 @@
 package com.prnk.friendscore;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class ScoreboardActivity extends Activity {
@@ -10,6 +10,8 @@ public class ScoreboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scoreboard);
+        
+        getActionBar().setTitle(R.string.scoreboardTitle);
     }
 
 
