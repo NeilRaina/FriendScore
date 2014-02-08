@@ -1,6 +1,7 @@
 package com.prnk.friendscore;
 
 public class ScoreObject {
+	private int id;
 	private int score;
 	private final int defaultScore = 0;
 	
@@ -10,6 +11,14 @@ public class ScoreObject {
 	
 	public int Score() {
 		return this.score;
+	}
+	
+	public int GetId(){
+		return this.id;
+	}
+	
+	public void SetID(int identifier){
+		this.id = identifier;
 	}
 	
 	public void IncrementScore() {
