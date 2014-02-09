@@ -11,22 +11,22 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 
 	//Table Names
 	public static final String gamesTable = "Games";
-	public static final String individualsTable = "Individuals";
+	public static final String playersTable = "Players";
 	public static final String scoresTable = "Scores";
-	public static final String teamsIndividualsTable = "TeamsIndividuals";
+	public static final String teamsPlayersTable = "TeamsPlayers";
 	public static final String teamsGamesTable = "TeamsGames";
 	
 	//Common Column Names
 	public static final String keyId = "Id";
 	public static final String keyTeamId = "TeamId";
 	public static final String keyGameId = "GameId";
-	public static final String keyIndividualsId = "IndividualsId";
+	public static final String keyPlayersId = "PlayersId";
 	public static final String keyScoreId = "ScoreId";
 	
 	//Games Table - Column names
 	public static final String keyGameName = "GameName";
 	
-	//Individuals Table - Column names
+	//Players Table - Column names
 	public static final String keyFirstName = "FirstName";
 	public static final String keyLastName = "LastName";
 	
@@ -40,7 +40,7 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	//Teams-Games Table - Column names
 	public static final String keyTeamName = "TeamName";
 	
-	//Teams-Individuals Table - Column names
+	//Teams-Players Table - Column names
 	//nothing for now
 
 	private static final int databaseVersion = 1;
@@ -50,13 +50,13 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 			+ "(" + keyId + " integer primary key autoincrement, "
 			+ keyGameName + " text not null);";
 	
-	private static final String individualsCreate = "create table " + individualsTable
+	private static final String playersCreate = "create table " + playersTable
 			+ "(" + keyId + " integer primary key autoincrement, "
 			+ keyFirstName + " text not null, " + keyLastName + " text not null)";
 	
-	private static final String teamsIndividualsCreate = "create table " + teamsIndividualsTable
+	private static final String teamsPlayersCreate = "create table " + teamsPlayersTable
 			+ "(" + keyId + " integer primary key autoincrement, "
-			+ keyTeamId + " integer, " + keyIndividualsId + " integer)";
+			+ keyTeamId + " integer, " + keyPlayersId + " integer)";
 	
 	private static final String teamsGamesCreate = "create table " + teamsGamesTable
 			+ "(" + keyId + " integer primary key autoincrement, "
@@ -71,8 +71,8 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(gamesCreate);
-		db.execSQL(individualsCreate);
-		db.execSQL(teamsIndividualsCreate);
+		db.execSQL(playersCreate);
+		db.execSQL(teamsPlayersCreate);
 		db.execSQL(teamsGamesCreate);
 	}
 
@@ -80,8 +80,8 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + gamesTable);
-        db.execSQL("DROP TABLE IF EXISTS " + individualsTable);
-        db.execSQL("DROP TABLE IF EXISTS " + teamsIndividualsTable);
+        db.execSQL("DROP TABLE IF EXISTS " + playersTable);
+        db.execSQL("DROP TABLE IF EXISTS " + teamsPlayersTable);
         db.execSQL("DROP TABLE IF EXISTS " + teamsGamesTable);
 
         // create new tables
@@ -119,8 +119,7 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	    // insert row
 	    long identifier = db.insert(teamsGamesTable, null, values);
 	 
-	    //TODO: here insert the individuals and score into appropriate tables
-	    
+	    //TODO: here insert the Players and score into appropriate tables
 	    return identifier;
 	}
 
