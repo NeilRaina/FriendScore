@@ -27,8 +27,12 @@ public class TeamObject {
 		return this.score.Score();
 	}
 	
-	public ScoreObject getScoreObject() {
+	public ScoreObject GetScoreObject() {
 		return this.score;
+	}
+	
+	public void SetScoreObject(ScoreObject s) {
+		this.score = s;
 	}
 	
 	public void SetName(String name) {
@@ -45,5 +49,9 @@ public class TeamObject {
 	
 	public void SetScore(int score) {
 		this.score.SetScore(score);
+	}
+	
+	public void SetPlayers(ArrayList<PlayerObject> p){
+		this.players = p;
 	}
 }

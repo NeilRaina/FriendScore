@@ -1,5 +1,7 @@
 package com.prnk.friendscore;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -128,11 +130,11 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	public long createTeamGame(GameObject g,TeamObject t){
 		SQLiteDatabase db = this.getWritableDatabase();
 		 
-		 t.getScoreObject().SetId(createScore(t.getScoreObject()));
+		 t.GetScoreObject().SetId(createScore(t.GetScoreObject()));
 		
 	    ContentValues values = new ContentValues();
 	    values.put(keyGameId, g.GetId());
-	    values.put(keyScoreId, t.getScoreObject().GetId());
+	    values.put(keyScoreId, t.GetScoreObject().GetId());
 	    values.put(keyTeamName, t.Name());
 	 
 	    // insert row
@@ -189,7 +191,9 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	    return identifier;
 	}
 	
-	//This is the start of the READ operations
+	/*
+	 * This is the start of the READ operations
+	 */
 	
 	//This function gets a single game object from the Games table
 	public GameObject getGameObject(long gameId) {
@@ -208,34 +212,87 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	    GameObject game = new GameObject();
 	    game.SetId(c.getInt(c.getColumnIndex(keyId)));
 	    game.SetTitle(c.getString(c.getColumnIndex(keyGameName)));
+	    game.SetTeams(getTeamsList(game.GetId()));
 	    
-	    //query for teams and then add them
-	 
 	    return game;
 	}
 	
+	//This function gets all the teams from a certain game from teamGamesTable
+	public ArrayList<TeamObject> getTeamsList(long gameId) {
+	    SQLiteDatabase db = this.getReadableDatabase();
+	    ArrayList<TeamObject> teams = new ArrayList<TeamObject>();
+	 
+	    String teamsQuery = "SELECT  * FROM " + teamsGamesTable + " WHERE "
+	            + keyGameId + " = " + gameId;
+	 
+	    //Log.e(LOG, selectQuery);
+	 
+	    Cursor c = db.rawQuery(teamsQuery, null);
+	 
+	    // looping through all rows and adding to list
+	    if (c.moveToFirst()) {
+	        do {
+	            TeamObject team = new TeamObject();
+	            team.SetId(c.getInt((c.getColumnIndex(keyId))));
+	            team.SetName(c.getString(c.getColumnIndex(keyTeamName)));
+	            team.SetScoreObject(getScoreObject(c.getInt(c.getColumnIndex(keyScoreId))));
+	            team.SetPlayers(getPlayersList(team.GetId()));
+	       
+	            // adding to teams list
+	            teams.add(team);
+	        } while (c.moveToNext());
+	    }
+	 
+	    return teams;
+	}
+	
+	//This function gets all the players from a certain team from teamPlayersTable
+	public ArrayList<PlayerObject> getPlayersList(long teamID) {
+	    SQLiteDatabase db = this.getReadableDatabase();
+	    ArrayList<PlayerObject> players = new ArrayList<PlayerObject>();
+	 
+        String playersQuery = "SELECT  * FROM " + teamsPlayersTable + " WHERE "
+	            + keyTeamId + " = " + teamID;
+        
+	    //Log.e(LOG, selectQuery);
+	 
+	    Cursor c = db.rawQuery(playersQuery, null);
+	 
+	    // looping through all rows and adding to list
+	    if (c.moveToFirst()) {
+	        do {
+	            PlayerObject player = new PlayerObject();
+	            player = getPlayerObject(c.getInt((c.getColumnIndex(keyPlayersId))));
+	            
+	            // adding to teams list
+	            players.add(player);
+	        } while (c.moveToNext());
+	    }
+	 
+	    return players;
+	}
+		
+	
 	//This function gets a single score object from the Scores table
-		public ScoreObject getScoreObject(long scoreId) {
-		    SQLiteDatabase db = this.getReadableDatabase();
-		 
-		    String selectQuery = "SELECT  * FROM " + scoresTable + " WHERE "
-		            + keyId + " = " + scoreId;
-		 
-		    //Log.e(LOG, selectQuery);
-		 
-		    Cursor c = db.rawQuery(selectQuery, null);
-		 
-		    if (c != null)
-		        c.moveToFirst();
-		 
-		    ScoreObject score = new ScoreObject();
-		    score.SetId(c.getInt(c.getColumnIndex(keyId)));
-		    score.SetScore(c.getInt(c.getColumnIndex(keyKills)));
-		    
-		    //query for teams and then add them
-		 
-		    return score;
-		}
+	public ScoreObject getScoreObject(long scoreId) {
+	    SQLiteDatabase db = this.getReadableDatabase();
+	 
+	    String selectQuery = "SELECT  * FROM " + scoresTable + " WHERE "
+	            + keyId + " = " + scoreId;
+	 
+	    //Log.e(LOG, selectQuery);
+	 
+	    Cursor c = db.rawQuery(selectQuery, null);
+	 
+	    if (c != null)
+	        c.moveToFirst();
+	 
+	    ScoreObject score = new ScoreObject();
+	    score.SetId(c.getInt(c.getColumnIndex(keyId)));
+	    score.SetScore(c.getInt(c.getColumnIndex(keyKills)));
+	 
+	    return score;
+	}
 	
 	//This function gets a single player object from the Players table
 	public PlayerObject getPlayerObject(long playerId) {

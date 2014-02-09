@@ -42,6 +42,10 @@ public class GameObject {
 		this.teams.add(team);
 	}
 	
+	public void SetTeams(ArrayList<TeamObject> teams) {
+		this.teams = teams;;
+	}
+	
 	public void RemoveTeam(int index) {
 		this.teams.remove(index);
 	}
