@@ -39,7 +39,7 @@ public class TeamObject {
 		return this.id;
 	}
 	
-	public void SetID(long identifier){
+	public void SetId(long identifier){
 		this.id = identifier;
 	}
 	

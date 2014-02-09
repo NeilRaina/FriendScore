@@ -2,6 +2,7 @@ package com.prnk.friendscore;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -112,6 +113,8 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	 
 	    // insert row
 	    long identifier = db.insert(gamesTable, null, values);
+	    
+	    g.SetId(identifier);
 	 
 	    //insert the teams
 	    for (TeamObject t : g.teams) {
@@ -125,8 +128,9 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	public long createTeamGame(GameObject g,TeamObject t){
 		SQLiteDatabase db = this.getWritableDatabase();
 		 
+		 t.getScoreObject().SetId(createScore(t.getScoreObject()));
+		
 	    ContentValues values = new ContentValues();
-	    values.put(keyTeamId, t.GetId());
 	    values.put(keyGameId, g.GetId());
 	    values.put(keyScoreId, t.getScoreObject().GetId());
 	    values.put(keyTeamName, t.Name());
@@ -134,11 +138,11 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	    // insert row
 	    long identifier = db.insert(teamsGamesTable, null, values);
 	 
-	    t.getScoreObject().SetID(createScore(t.getScoreObject()));
+	    t.SetId(identifier);
 	    
 	    for (PlayerObject p: t.players){
-	    	createTeamPlayer(t,p);
 	    	p.SetId(createPlayer(p));
+	    	createTeamPlayer(t,p);
 	    }
 	    
 	    return identifier;
@@ -187,6 +191,72 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	
 	//This is the start of the READ operations
 	
+	//This function gets a single game object from the Games table
+	public GameObject getGameObject(long gameId) {
+	    SQLiteDatabase db = this.getReadableDatabase();
+	 
+	    String selectQuery = "SELECT  * FROM " + gamesTable + " WHERE "
+	            + keyId + " = " + gameId;
+	 
+	    //Log.e(LOG, selectQuery);
+	 
+	    Cursor c = db.rawQuery(selectQuery, null);
+	 
+	    if (c != null)
+	        c.moveToFirst();
+	 
+	    GameObject game = new GameObject();
+	    game.SetId(c.getInt(c.getColumnIndex(keyId)));
+	    game.SetTitle(c.getString(c.getColumnIndex(keyGameName)));
+	    
+	    //query for teams and then add them
+	 
+	    return game;
+	}
+	
+	//This function gets a single score object from the Scores table
+		public ScoreObject getScoreObject(long scoreId) {
+		    SQLiteDatabase db = this.getReadableDatabase();
+		 
+		    String selectQuery = "SELECT  * FROM " + scoresTable + " WHERE "
+		            + keyId + " = " + scoreId;
+		 
+		    //Log.e(LOG, selectQuery);
+		 
+		    Cursor c = db.rawQuery(selectQuery, null);
+		 
+		    if (c != null)
+		        c.moveToFirst();
+		 
+		    ScoreObject score = new ScoreObject();
+		    score.SetId(c.getInt(c.getColumnIndex(keyId)));
+		    score.SetScore(c.getInt(c.getColumnIndex(keyKills)));
+		    
+		    //query for teams and then add them
+		 
+		    return score;
+		}
+	
+	//This function gets a single player object from the Players table
+	public PlayerObject getPlayerObject(long playerId) {
+	    SQLiteDatabase db = this.getReadableDatabase();
+	 
+	    String selectQuery = "SELECT  * FROM " + playersTable + " WHERE "
+	            + keyId + " = " + playerId;
+	 
+	    //Log.e(LOG, selectQuery);
+	 
+	    Cursor c = db.rawQuery(selectQuery, null);
+	 
+	    if (c != null)
+	        c.moveToFirst();
+	 
+	    PlayerObject player = new PlayerObject();
+	    player.SetId(c.getInt(c.getColumnIndex(keyId)));
+	    player.SetName(c.getString(c.getColumnIndex(keyFirstName)), c.getString(c.getColumnIndex(keyLastName)));	    
+	 
+	    return player;
+	}
 
 
 }
