@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GameObject {
 	private int id;
 	private String title;
-	private ArrayList<TeamObject> teams;
+	public ArrayList<TeamObject> teams;
 	private final String defaultTitle = "Title";
 
 	public GameObject() {

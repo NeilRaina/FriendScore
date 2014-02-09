@@ -13,6 +13,7 @@ public class TeamObject {
 	
 	public TeamObject(String name) {
 		this.name = name;
+		this.score = new ScoreObject();
 	}
 	
 	public String Name() {
