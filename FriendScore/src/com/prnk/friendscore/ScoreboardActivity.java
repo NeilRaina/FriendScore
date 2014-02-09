@@ -1,10 +1,13 @@
 package com.prnk.friendscore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -12,12 +15,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ScoreboardActivity extends Activity {
 	private DataBaseWrapper dbwrapper;
 
+	public final int headerSize = 20;
+	
     private OnClickListener newGameButtonListener = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
@@ -55,9 +59,14 @@ public class ScoreboardActivity extends Activity {
         
         for(GameObject g : games) {
         	scoreContents.addView(CreateHeader(g.Title()));
-        	
-        	for (TeamObject t : g.teams) {
-        		scoreContents.addView(CreateLL("Horizontal", t));
+        	//scoreContents.addView(CreateLine());
+        	List<TeamObject> teams = g.teams;
+            Collections.sort(teams);
+            boolean first = true;
+            //scoreContents.addView(CreateLLHeader("Horizontal"));
+        	for (TeamObject t : teams) {
+        		scoreContents.addView(CreateLL("Horizontal", t, first));
+        		if(first) first = false;
         	}
         }
 	}
@@ -75,8 +84,8 @@ public class ScoreboardActivity extends Activity {
         return true;
     }
     
-    //Create linear layout
-    public LinearLayout CreateLL(String layout, TeamObject t) {
+    //Create linear header
+    public LinearLayout CreateLLHeader(String layout) {
     	LinearLayout ll = new LinearLayout(this);
     	if(layout.equalsIgnoreCase("vertical")) {
     		ll.setOrientation(LinearLayout.VERTICAL);
@@ -85,8 +94,24 @@ public class ScoreboardActivity extends Activity {
     		ll.setOrientation(LinearLayout.HORIZONTAL);
     	}
     	
-    	ll.addView(CreateTextView(t.Name()));
-		ll.addView(CreateTextView(t.Score()));
+    	ll.addView(CreateTextView("Name", false, headerSize - 2));
+		ll.addView(CreateTextView("Points", false, headerSize - 2));
+    	
+    	return ll;
+    }
+    
+    //Create linear layout
+    public LinearLayout CreateLL(String layout, TeamObject t, boolean first) {
+    	LinearLayout ll = new LinearLayout(this);
+    	if(layout.equalsIgnoreCase("vertical")) {
+    		ll.setOrientation(LinearLayout.VERTICAL);
+    	}
+    	else {
+    		ll.setOrientation(LinearLayout.HORIZONTAL);
+    	}
+    	
+    	ll.addView(CreateTextView(t.Name(), first, headerSize - 4));
+		ll.addView(CreateTextView(t.Score(), first, headerSize - 4));
     	
     	return ll;
     }
@@ -95,32 +120,43 @@ public class ScoreboardActivity extends Activity {
     public TextView CreateHeader(String text) {
     	TextView tv = new TextView(this);
     	tv.setText(text);
-    	tv.setTextSize(20);
+    	tv.setTextSize(headerSize);
     	return tv;
     }
     
     //Create a TextView given the specified string
-    public TextView CreateTextView(String text) {
+    public TextView CreateTextView(String text, boolean first, int textSize) {
     	TextView tv = new TextView(this);
     	tv.setText(text);
-    	tv.setLayoutParams(AssignParameters(0.5f));
-    	tv.setGravity(0x03);
+    	tv.setTextSize(textSize);
+    	if(first) tv.setTypeface(Typeface.DEFAULT_BOLD);
+    	tv.setLayoutParams(AssignParameters(1));
     	return tv;
     }
     
   //Create a TextView given the specified int
-    public TextView CreateTextView(int text) {
+    public TextView CreateTextView(int text, boolean first, int textSize) {
     	TextView tv = new TextView(this);
     	tv.setText(Integer.toString(text));
+    	tv.setTextSize(textSize);
     	tv.setGravity(0x05);
-    	tv.setLayoutParams(AssignParameters(0.5f));
+    	if(first) tv.setTypeface(Typeface.DEFAULT_BOLD);
+    	tv.setLayoutParams(AssignParameters(1));
+    	return tv;
+    }
+    
+    public TextView CreateLine() {
+    	TextView tv = new TextView(this);
+    	LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 2);
+    	tv.setBackgroundColor(Color.BLACK);
+    	tv.setLayoutParams(llp);
     	return tv;
     }
     
     //Assign the layout parameters for based on params
-    public LayoutParams AssignParameters(float weight) {
+    public LayoutParams AssignParameters(int weight) {
     	LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, weight);
-        llp.setMargins(50, 0, 50, 0); // llp.setMargins(left, top, right, bottom);
+        llp.setMargins(50, 10, 10, 0); // llp.setMargins(left, top, right, bottom);
         return llp;
     }
     
@@ -189,9 +225,7 @@ public class ScoreboardActivity extends Activity {
 	    		dbwrapper.createGame(game);
 	    	}
     	}
-    	
     	return games;
-    	
     }
     
 }
