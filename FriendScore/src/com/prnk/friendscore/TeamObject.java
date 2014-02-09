@@ -2,13 +2,15 @@ package com.prnk.friendscore;
 
 import java.util.ArrayList;
 
-public class TeamObject {
-	private boolean selected;
+
+public class TeamObject implements Comparable<TeamObject>{
+	
 	private long id;
 	private String name;
 	private ScoreObject score;
 	public ArrayList<PlayerObject> players;
 	private final String defaultString = "Name";
+	private boolean selected;
 	
 	public TeamObject() {
 		this.name = defaultString;
@@ -62,5 +64,10 @@ public class TeamObject {
 	
 	public void SetSelected(boolean selected) {
 		this.selected = selected;
+	}
+	
+	public int compareTo(TeamObject o)
+	{
+	     return(o.Score() - this.Score());
 	}
 }
