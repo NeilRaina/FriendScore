@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ScoreboardActivity extends Activity {
@@ -71,12 +72,12 @@ public class ScoreboardActivity extends Activity {
     	else {
     		ll.setOrientation(LinearLayout.HORIZONTAL);
     	}
+    	
     	ll.addView(CreateTextView(t.Name()));
 		ll.addView(CreateTextView(t.Score()));
     	
     	return ll;
     }
-    
     
     //Create a Header Text given a string
     public TextView CreateHeader(String text) {
@@ -90,7 +91,7 @@ public class ScoreboardActivity extends Activity {
     public TextView CreateTextView(String text) {
     	TextView tv = new TextView(this);
     	tv.setText(text);
-    	tv.setLayoutParams(AssignParameters());
+    	tv.setLayoutParams(AssignParameters(0.5f));
     	tv.setGravity(0x03);
     	return tv;
     }
@@ -100,13 +101,13 @@ public class ScoreboardActivity extends Activity {
     	TextView tv = new TextView(this);
     	tv.setText(Integer.toString(text));
     	tv.setGravity(0x05);
-    	tv.setLayoutParams(AssignParameters());
+    	tv.setLayoutParams(AssignParameters(0.5f));
     	return tv;
     }
     
     //Assign the layout parameters for based on params
-    public LayoutParams AssignParameters() {
-    	LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    public LayoutParams AssignParameters(float weight) {
+    	LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, weight);
         llp.setMargins(50, 0, 50, 0); // llp.setMargins(left, top, right, bottom);
         return llp;
     }
