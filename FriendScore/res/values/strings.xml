@@ -6,4 +6,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="scoreboardTitle">Scoreboard</string>
     <string name="scoreboardNewGame">New Game</string>
+    
+    <string name="title">Scoreboard Title</string>
+    <string name="players">List of Teams</string>
+    <string name="titleEditHint">Edit Title</string>
+    <string name="teamList">List of Teams</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+    <string name="newTeamDialogMessage">Enter Name for Team</string>
+    <string name="nameEditHint">Enter Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
 </resources>

@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:text="@string/title"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edittitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/title"
+        android:layout_toRightOf="@+id/title"
+        android:ems="10"
+        android:hint="@string/titleEditHint" >
+        	<requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/teamList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:text="@string/teamList"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <Button
+        android:id="@+id/addTeam"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/teamList"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/teamList"
+        android:text="@string/add"
+        android:onClick="onAddTeamClick" />
+
+    <Button
+        android:id="@+id/removeTeam"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/addTeam"
+        android:layout_alignTop="@+id/addTeam"
+        android:layout_toLeftOf="@+id/addTeam"
+        android:text="@string/remove" />
+
+
+    <ListView
+        android:id="@+id/teamListView"
+        android:padding="5dp"
+        android:layout_below="@+id/teamList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</RelativeLayout>
