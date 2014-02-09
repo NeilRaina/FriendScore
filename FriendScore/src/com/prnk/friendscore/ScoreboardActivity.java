@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ScoreboardActivity extends Activity {
@@ -43,13 +44,13 @@ public class ScoreboardActivity extends Activity {
         //populates list of games with some dummy data
         games = this.GetTestGames();
         
-        LinearLayout scoreContents = (LinearLayout)findViewById(R.id.ScoreboardContents);
+        LinearLayout scoreContents = (LinearLayout)findViewById(R.id.scoreBoardContents);
         
         for(GameObject g : games) {
-        	scoreContents.addView(CreateTextView(g.Title()));
+        	scoreContents.addView(CreateHeader(g.Title()));
+        	
         	for (TeamObject t : g.teams) {
-        		scoreContents.addView(CreateTextView(t.Name()));
-        		scoreContents.addView(CreateTextView(t.Score()));
+        		scoreContents.addView(CreateLL("Horizontal", t));
         	}
         }
     }
@@ -61,10 +62,36 @@ public class ScoreboardActivity extends Activity {
         return true;
     }
     
+    //Create linear layout
+    public LinearLayout CreateLL(String layout, TeamObject t) {
+    	LinearLayout ll = new LinearLayout(this);
+    	if(layout.equalsIgnoreCase("vertical")) {
+    		ll.setOrientation(LinearLayout.VERTICAL);
+    	}
+    	else {
+    		ll.setOrientation(LinearLayout.HORIZONTAL);
+    	}
+    	ll.addView(CreateTextView(t.Name()));
+		ll.addView(CreateTextView(t.Score()));
+    	
+    	return ll;
+    }
+    
+    
+    //Create a Header Text given a string
+    public TextView CreateHeader(String text) {
+    	TextView tv = new TextView(this);
+    	tv.setText(text);
+    	tv.setTextSize(20);
+    	return tv;
+    }
+    
     //Create a TextView given the specified string
     public TextView CreateTextView(String text) {
     	TextView tv = new TextView(this);
     	tv.setText(text);
+    	tv.setLayoutParams(AssignParameters());
+    	tv.setGravity(0x03);
     	return tv;
     }
     
@@ -72,7 +99,16 @@ public class ScoreboardActivity extends Activity {
     public TextView CreateTextView(int text) {
     	TextView tv = new TextView(this);
     	tv.setText(Integer.toString(text));
+    	tv.setGravity(0x05);
+    	tv.setLayoutParams(AssignParameters());
     	return tv;
+    }
+    
+    //Assign the layout parameters for based on params
+    public LayoutParams AssignParameters() {
+    	LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        llp.setMargins(50, 0, 50, 0); // llp.setMargins(left, top, right, bottom);
+        return llp;
     }
     
     public List<GameObject> GetTestGames() {
