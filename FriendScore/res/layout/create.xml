@@ -19,7 +19,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/edittitle"
+        android:id="@+id/editTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/title"
@@ -64,12 +64,14 @@
     
     <ListView
         android:id="@+id/@android:id/list"
-        android:padding="5dp"
-        android:layout_below="@+id/teamList"
-        android:dividerHeight="0dp"
-		android:divider="@null"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/doneEditGameButton"
+        android:layout_below="@+id/teamList"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:padding="5dp" >
+
     </ListView>
 
     <View
@@ -78,5 +80,25 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/teamList"
         android:background="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/cancelEditGameButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onCancelEditGameButton"
+        android:text="@string/cancel" />
+
+    <Button
+        android:id="@+id/doneEditGameButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/cancelEditGameButton"
+        android:onClick="onDoneEditGameButton"
+        android:text="@string/done" />
 
 </RelativeLayout>

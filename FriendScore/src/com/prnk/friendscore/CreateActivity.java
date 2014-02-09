@@ -17,8 +17,9 @@ import android.widget.ListView;
 
 
 public class CreateActivity extends ListActivity {
-    GameObject currentGame;
-    TeamListAdapter adapter;
+    private GameObject currentGame;		//current game being edited or created
+    private TeamListAdapter adapter;	//custom list adapter
+    private DataBaseWrapper dbwrapper;	//database wrapper
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,13 @@ public class CreateActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.create);
 		getActionBar().setTitle(R.string.scoreboardNewGame);
+		dbwrapper = new DataBaseWrapper(this);
+		//set up the list view and the buttons
 		setupListView();
 		setupRemoveButton();
 	}
 	
+	//Displays the dialog for entering or editing a team name
 	private void DisplayEditTeamDialog(final String currentName) {
 		final Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.edit_team_dialog);
@@ -68,6 +72,26 @@ public class CreateActivity extends ListActivity {
 
 	public void onAddTeamClick(View v) {
 		DisplayEditTeamDialog("");
+	}
+	
+	public void onCancelEditGameButton(View v) {
+		//don't write to the database
+		finish();
+	}
+	
+	public void onDoneEditGameButton(View v) {
+		if(!currentGame.teams.isEmpty()) {
+			//write the game into the database
+			EditText editTitle = (EditText)this.findViewById(R.id.editTitle);
+			currentGame.SetTitle(editTitle.getText().toString());
+			if(currentGame.GetId() == 0) {
+				//not in the database
+				dbwrapper.createGame(currentGame);
+			}
+			
+			//return to the calling view
+			finish();
+		}
 	}
 	
 	private void setupRemoveButton() {

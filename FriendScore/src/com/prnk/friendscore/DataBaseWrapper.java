@@ -67,12 +67,19 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	
 	private static final String teamsGamesCreate = "create table " + teamsGamesTable
 			+ "(" + keyId + " integer primary key autoincrement, "
-			+ keyTeamId + " integer, " + keyGameId + " integer, " + keyTeamName + " text"  +")";
+			+ keyTeamId + " integer, " + keyGameId + " integer, " + keyTeamName + " text," + keyScoreId + " integer" +")";
 	
 	public static final String databaseName = "Scoreboard Manager";
 
+	private Context context;
+	
 	public DataBaseWrapper(Context context) {
 		super(context, databaseName, null, databaseVersion);
+		this.context = context;
+	}
+	
+	public void DeleteDatabase() {
+		context.deleteDatabase(databaseName);
 	}
 
 	@Override
@@ -142,7 +149,7 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	 
 	    t.SetId(identifier);
 	    
-	    for (PlayerObject p: t.players){
+	    for (PlayerObject p: t.players) {
 	    	p.SetId(createPlayer(p));
 	    	createTeamPlayer(t,p);
 	    }
@@ -194,6 +201,30 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	/*
 	 * This is the start of the READ operations
 	 */
+	
+	//This function gets all game objects from the Games table
+	public ArrayList<GameObject> getAllGameObjects() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<GameObject> games = new ArrayList<GameObject>();
+		 
+	    String selectQuery = "SELECT  * FROM " + gamesTable;
+	 
+	    //Log.e(LOG, selectQuery);
+	 
+	    Cursor c = db.rawQuery(selectQuery, null);
+
+	    if (c.moveToFirst()) {
+	        do {
+	    	    GameObject game = new GameObject();
+	    	    game.SetId(c.getInt(c.getColumnIndex(keyId)));
+	    	    game.SetTitle(c.getString(c.getColumnIndex(keyGameName)));
+	    	    game.SetTeams(getTeamsList(game.GetId()));
+	            games.add(game);
+	        } while (c.moveToNext());
+	    }
+
+	    return games;
+	}
 	
 	//This function gets a single game object from the Games table
 	public GameObject getGameObject(long gameId) {

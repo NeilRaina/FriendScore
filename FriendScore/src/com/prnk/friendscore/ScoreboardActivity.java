@@ -16,13 +16,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ScoreboardActivity extends Activity {
+	private DataBaseWrapper dbwrapper;
 
     private OnClickListener newGameButtonListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View arg0) {
 			Intent intent = new Intent(ScoreboardActivity.this, CreateActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 		}
     	
     };
@@ -32,10 +32,15 @@ public class ScoreboardActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scoreboard);
         getActionBar().setTitle(R.string.scoreboardTitle);
+        dbwrapper = new DataBaseWrapper(this);
         
         Button newGameButton = (Button)findViewById(R.id.addNewGame);
         newGameButton.setOnClickListener(newGameButtonListener);
-        
+
+        PopulateScoreboards();
+    }
+	
+	public void PopulateScoreboards() {
         //List of games that current user is part of
         List<GameObject> games;
         
@@ -46,6 +51,7 @@ public class ScoreboardActivity extends Activity {
         games = this.GetTestGames();
         
         LinearLayout scoreContents = (LinearLayout)findViewById(R.id.scoreBoardContents);
+        scoreContents.removeAllViews();
         
         for(GameObject g : games) {
         	scoreContents.addView(CreateHeader(g.Title()));
@@ -54,8 +60,14 @@ public class ScoreboardActivity extends Activity {
         		scoreContents.addView(CreateLL("Horizontal", t));
         	}
         }
-    }
+	}
 
+	@Override
+	protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+		//Returned from other activity (ie create/edit), redraw scoreboards
+		PopulateScoreboards();
+	}
+	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -114,62 +126,69 @@ public class ScoreboardActivity extends Activity {
     
     public List<GameObject> GetTestGames() {
     	List<GameObject> games = new ArrayList<GameObject>();
-    	
-    	//fifa singles
-    	TeamObject peterfs = new TeamObject("Peter");
-    	peterfs.SetScore(2);
-    	TeamObject ryanfs = new TeamObject("Ryan");
-    	ryanfs.SetScore(8);
-    	TeamObject neilfs = new TeamObject("Neil");
-    	neilfs.SetScore(8);
-    	TeamObject karofs = new TeamObject("Karo");
-    	karofs.SetScore(15);
-    	
-    	//blobs
-    	TeamObject peterbl = new TeamObject("Peter");
-    	peterbl.SetScore(20);
-    	TeamObject ryanbl = new TeamObject("Ryan");
-    	ryanbl.SetScore(10);
-    	TeamObject neilbl = new TeamObject("Neil");
-    	neilbl.SetScore(8);
-    	TeamObject karobl = new TeamObject("Karo");
-    	karobl.SetScore(10);
-    	
-    	//nhl
-    	TeamObject peternhl = new TeamObject("Peter");
-    	peternhl.SetScore(1);
-    	TeamObject ryannhl = new TeamObject("Ryan");
-    	ryannhl.SetScore(1);
-    	
-    	//fifa doubles
-    	TeamObject peterRyan = new TeamObject("WhiteGuys");
-    	TeamObject neilKaro = new TeamObject("BlackGuys");
-    	neilKaro.SetScore(2);
-    	
-    	GameObject fifaSingles = new GameObject("FIFA Singles");
-    	fifaSingles.AddTeam(peterfs);
-    	fifaSingles.AddTeam(ryanfs);
-    	fifaSingles.AddTeam(neilfs);
-    	fifaSingles.AddTeam(karofs);
-    	
-    	GameObject fifaDoubles = new GameObject("FIFA Doubles");
-    	fifaDoubles.AddTeam(peterRyan);
-    	fifaDoubles.AddTeam(neilKaro);
-    	
-    	GameObject blobs = new GameObject("Black Ops");
-    	blobs.AddTeam(peterbl);
-    	blobs.AddTeam(ryanbl);
-    	blobs.AddTeam(neilbl);
-    	blobs.AddTeam(karobl);
-    	
-    	GameObject nhl = new GameObject("NHL 2K14");
-    	nhl.AddTeam(peternhl);
-    	nhl.AddTeam(ryannhl);
-    	
-    	games.add(fifaSingles);
-    	games.add(fifaDoubles);
-    	games.add(blobs);
-    	games.add(nhl);
+    	games = dbwrapper.getAllGameObjects();
+    	if(games.isEmpty()) {
+    		//create all test games and insert into database
+	    	//fifa singles
+	    	TeamObject peterfs = new TeamObject("Peter");
+	    	peterfs.SetScore(2);
+	    	TeamObject ryanfs = new TeamObject("Ryan");
+	    	ryanfs.SetScore(8);
+	    	TeamObject neilfs = new TeamObject("Neil");
+	    	neilfs.SetScore(8);
+	    	TeamObject karofs = new TeamObject("Karo");
+	    	karofs.SetScore(15);
+	    	
+	    	//blobs
+	    	TeamObject peterbl = new TeamObject("Peter");
+	    	peterbl.SetScore(20);
+	    	TeamObject ryanbl = new TeamObject("Ryan");
+	    	ryanbl.SetScore(10);
+	    	TeamObject neilbl = new TeamObject("Neil");
+	    	neilbl.SetScore(8);
+	    	TeamObject karobl = new TeamObject("Karo");
+	    	karobl.SetScore(10);
+	    	
+	    	//nhl
+	    	TeamObject peternhl = new TeamObject("Peter");
+	    	peternhl.SetScore(1);
+	    	TeamObject ryannhl = new TeamObject("Ryan");
+	    	ryannhl.SetScore(1);
+	    	
+	    	//fifa doubles
+	    	TeamObject peterRyan = new TeamObject("WhiteGuys");
+	    	TeamObject neilKaro = new TeamObject("BlackGuys");
+	    	neilKaro.SetScore(2);
+	    	
+	    	GameObject fifaSingles = new GameObject("FIFA Singles");
+	    	fifaSingles.AddTeam(peterfs);
+	    	fifaSingles.AddTeam(ryanfs);
+	    	fifaSingles.AddTeam(neilfs);
+	    	fifaSingles.AddTeam(karofs);
+	    	
+	    	GameObject fifaDoubles = new GameObject("FIFA Doubles");
+	    	fifaDoubles.AddTeam(peterRyan);
+	    	fifaDoubles.AddTeam(neilKaro);
+	    	
+	    	GameObject blobs = new GameObject("Black Ops");
+	    	blobs.AddTeam(peterbl);
+	    	blobs.AddTeam(ryanbl);
+	    	blobs.AddTeam(neilbl);
+	    	blobs.AddTeam(karobl);
+	    	
+	    	GameObject nhl = new GameObject("NHL 2K14");
+	    	nhl.AddTeam(peternhl);
+	    	nhl.AddTeam(ryannhl);
+	    	
+	    	games.add(fifaSingles);
+	    	games.add(fifaDoubles);
+	    	games.add(blobs);
+	    	games.add(nhl);
+	    	
+	    	for(GameObject game : games) {
+	    		dbwrapper.createGame(game);
+	    	}
+    	}
     	
     	return games;
     	

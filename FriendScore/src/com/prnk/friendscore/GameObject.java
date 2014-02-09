@@ -6,16 +6,18 @@ public class GameObject {
 	private long id;
 	private String title;
 	public ArrayList<TeamObject> teams;
-	private final String defaultTitle = "Title";
+	private final String defaultTitle = "New Scoreboard";
 
 	public GameObject() {
 		this.title = defaultTitle;
 		this.teams = new ArrayList<TeamObject>();
+		this.id = 0;
 	}
 	
 	public GameObject(String title) {
 		this.title = title;
 		this.teams = new ArrayList<TeamObject>();
+		this.id = 0;
 	}
 	
 	public String Title() {
@@ -30,7 +32,12 @@ public class GameObject {
 	}
 	
 	public void SetTitle(String title) {
-		this.title = title;
+		title = title.trim();
+		if(title.equals("") || title.isEmpty()) {
+			this.title = defaultTitle;
+		} else {
+			this.title = title;
+		}
 	}
 	
 	public long GetId(){

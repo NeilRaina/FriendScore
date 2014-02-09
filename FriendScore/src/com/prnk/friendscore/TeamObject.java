@@ -8,16 +8,18 @@ public class TeamObject {
 	private String name;
 	private ScoreObject score;
 	public ArrayList<PlayerObject> players;
-	private final String defaultString = "Name";
+	private final String defaultString = "Team Name";
 	
 	public TeamObject() {
 		this.name = defaultString;
 		this.score = new ScoreObject();
+		this.players = new ArrayList<PlayerObject>();
 	}
 	
 	public TeamObject(String name) {
 		this.name = name;
 		this.score = new ScoreObject();
+		this.players = new ArrayList<PlayerObject>();
 	}
 	
 	public String Name() {
