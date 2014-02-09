@@ -24,6 +24,10 @@ public class TeamObject {
 		return this.score.Score();
 	}
 	
+	public ScoreObject getScoreObject() {
+		return this.score;
+	}
+	
 	public void SetName(String name) {
 		this.name = name;
 	}
