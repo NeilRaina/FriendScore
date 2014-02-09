@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
-	android:focusableInTouchMode="true" 
+	android:focusableInTouchMode="true"
+	android:padding="5dp" 
     android:orientation="vertical" >
 
     <TextView
@@ -65,8 +66,17 @@
         android:id="@+id/@android:id/list"
         android:padding="5dp"
         android:layout_below="@+id/teamList"
+        android:dividerHeight="0dp"
+		android:divider="@null"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
     </ListView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/teamList"
+        android:background="@android:color/darker_gray" />
 
 </RelativeLayout>

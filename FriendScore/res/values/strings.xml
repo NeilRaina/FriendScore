@@ -17,4 +17,5 @@
     <string name="nameEditHint">Enter Name</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
+    <string name="emptyTeamListItem">No Teams</string>
 </resources>

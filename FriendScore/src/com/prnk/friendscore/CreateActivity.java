@@ -101,16 +101,25 @@ public class CreateActivity extends ListActivity {
 		
 		@Override
 		public int getCount() {
+			if(game.teams.isEmpty()) {
+				return 1;
+			}
 			return game.teams.size();
 		}
 		
 		@Override
 		public boolean isEmpty () {
-			return getCount() == 0;
+			return game.teams.isEmpty();
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			if(isEmpty()) {
+				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			    convertView = inflater.inflate(R.layout.empty_team_list_item, parent, false);
+			    return convertView;
+			}
+			
 			CheckBox box;
 			if(convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -136,6 +145,29 @@ public class CreateActivity extends ListActivity {
 			    });
 			} else {
 				box = (CheckBox) convertView.getTag();
+				if(box == null) {
+					LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				    convertView = inflater.inflate(R.layout.checkboxed_listview_item, parent, false);
+				    box = (CheckBox) convertView.findViewById(R.id.teamCheckBox);
+				    box.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+						@Override
+						public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+							TeamObject team = game.GetTeamByName(buttonView.getText().toString());
+							team.SetSelected(isChecked);
+						}
+					});
+				    box.setText(game.Team(position).Name());
+				    convertView.setTag(box);
+				    
+				    Button edit = (Button) convertView.findViewById(R.id.editTeamName);
+				    edit.setOnClickListener(new Button.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							CheckBox box = (CheckBox) ((View)v.getParent()).findViewById(R.id.teamCheckBox);
+							DisplayEditTeamDialog(box.getText().toString());
+						}
+				    });
+				}
 			}
 
 			TeamObject team = this.game.Team(position);
