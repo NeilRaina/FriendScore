@@ -1,7 +1,7 @@
 package com.prnk.friendscore;
 
 public class PlayerObject {
-	private int id;
+	private long id;
 	private String firstName;
 	private String lastName;
 	private final String defaultString = "default";
@@ -16,11 +16,11 @@ public class PlayerObject {
 		this.lastName = last;
 	}
 	
-	public int GetId(){
+	public long GetId(){
 		return this.id;
 	}
 
-	public void SetId(int id){
+	public void SetId(long id){
 		this.id = id;
 	}
 	

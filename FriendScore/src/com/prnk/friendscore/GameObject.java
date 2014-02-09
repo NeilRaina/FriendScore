@@ -3,7 +3,7 @@ package com.prnk.friendscore;
 import java.util.ArrayList;
 
 public class GameObject {
-	private int id;
+	private long id;
 	private String title;
 	public ArrayList<TeamObject> teams;
 	private final String defaultTitle = "Title";
@@ -30,11 +30,11 @@ public class GameObject {
 		this.title = title;
 	}
 	
-	public int GetId(){
+	public long GetId(){
 		return this.id;
 	}
 	
-	public void SetID(int identifier){
+	public void SetID(long identifier){
 		this.id = identifier;
 	}
 	

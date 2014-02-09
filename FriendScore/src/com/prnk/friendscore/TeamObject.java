@@ -1,9 +1,12 @@
 package com.prnk.friendscore;
 
+import java.util.ArrayList;
+
 public class TeamObject {
-	private int id;
+	private long id;
 	private String name;
 	private ScoreObject score;
+	public ArrayList<PlayerObject> players;
 	private final String defaultString = "Name";
 	
 	public TeamObject() {
@@ -32,11 +35,11 @@ public class TeamObject {
 		this.name = name;
 	}
 	
-	public int GetId(){
+	public long GetId(){
 		return this.id;
 	}
 	
-	public void SetID(int identifier){
+	public void SetID(long identifier){
 		this.id = identifier;
 	}
 	
