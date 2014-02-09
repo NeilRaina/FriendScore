@@ -16,5 +16,5 @@
     <string name="newTeamDialogMessage">Enter Name for Team</string>
     <string name="nameEditHint">Enter Name</string>
     <string name="cancel">Cancel</string>
-    <string name="create">Create</string>
+    <string name="done">Done</string>
 </resources>

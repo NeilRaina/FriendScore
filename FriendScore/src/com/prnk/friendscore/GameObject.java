@@ -23,6 +23,9 @@ public class GameObject {
 	}
 	
 	public TeamObject Team(int index) {
+		if(index < 0 || index >= teams.size()) {
+			return null;
+		}
 		return this.teams.get(index);
 	}
 	
@@ -54,4 +57,31 @@ public class GameObject {
 		return this.teams.indexOf(team);
 	}
 
+	public TeamObject GetTeamByName(String name) {
+		for(TeamObject team : teams) {
+			if(team.Name().equals(name)) {
+				return team;
+			}
+		}
+		return null;
+	}
+	
+	public void RemoveSelectedTeams() {
+		ArrayList<TeamObject> newTeams = new ArrayList<TeamObject>();
+		for(TeamObject team : teams) {
+			if(!team.Selected()) {
+				newTeams.add(team);
+			}
+		}
+		this.teams = newTeams;
+	}
+	
+	public boolean ContainsTeamName(String name) {
+		for(TeamObject team : teams) {
+			if(team.Name().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

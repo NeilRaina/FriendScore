@@ -3,6 +3,7 @@ package com.prnk.friendscore;
 import java.util.ArrayList;
 
 public class TeamObject {
+	private boolean selected;
 	private long id;
 	private String name;
 	private ScoreObject score;
@@ -53,5 +54,13 @@ public class TeamObject {
 	
 	public void SetPlayers(ArrayList<PlayerObject> p){
 		this.players = p;
+	}
+	
+	public boolean Selected() {
+		return this.selected;
+	}
+	
+	public void SetSelected(boolean selected) {
+		this.selected = selected;
 	}
 }

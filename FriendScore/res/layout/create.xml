@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+	android:focusableInTouchMode="true" 
     android:orientation="vertical" >
 
     <TextView
@@ -25,7 +27,6 @@
         android:layout_toRightOf="@+id/title"
         android:ems="10"
         android:hint="@string/titleEditHint" >
-        	<requestFocus />
     </EditText>
 
     <TextView
@@ -59,14 +60,13 @@
         android:layout_alignTop="@+id/addTeam"
         android:layout_toLeftOf="@+id/addTeam"
         android:text="@string/remove" />
-
-
+    
     <ListView
-        android:id="@+id/teamListView"
+        android:id="@+id/@android:id/list"
         android:padding="5dp"
         android:layout_below="@+id/teamList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
     </ListView>
 
 </RelativeLayout>

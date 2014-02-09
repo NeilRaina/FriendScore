@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/editNewTeamName"
+        android:id="@+id/editTeamName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -20,11 +20,11 @@
         android:weightSum="2"
         style="?android:attr/buttonBarStyle">
         <Button
-            android:id="@+id/dialogCreateButton"
+            android:id="@+id/dialogDoneButton"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/create" />
+            android:text="@string/done" />
 
         <Button
             android:id="@+id/dialogCancelButton"
