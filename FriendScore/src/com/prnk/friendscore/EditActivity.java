@@ -15,6 +15,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class EditActivity extends ListActivity {
@@ -26,7 +27,6 @@ public class EditActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_game);
-		getActionBar().setTitle(R.string.editScoreboard);
 
 		dbwrapper = new DataBaseWrapper(this);
 		
@@ -42,6 +42,10 @@ public class EditActivity extends ListActivity {
 			currentGame = new GameObject();
 		}
 		
+		getActionBar().setTitle(
+				(currentGame.GetId() == 0) 
+				? R.string.createScoreboard
+				: R.string.editScoreboard);
 		//set up the list view and the buttons
 		SetupListView();
 		SetupRemoveButton();

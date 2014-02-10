@@ -22,4 +22,5 @@
     <string name="editTeamContentDescription">Edit Team Name</string>
     <string name="editScoreboardContentDescription">Edit Scoreboard</string>
     <string name="newScoreboard">New Scoreboard</string>
+    <string name="createScoreboard">Create Scoreboard</string>
 </resources>
