@@ -49,18 +49,8 @@
         android:layout_alignBottom="@+id/teamList"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/teamList"
-        android:text="@string/add"
+        android:text="@string/addNewTeam"
         android:onClick="onAddTeamClick" />
-
-    <Button
-        android:id="@+id/removeTeam"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/addTeam"
-        android:layout_alignTop="@+id/addTeam"
-        android:layout_toLeftOf="@+id/addTeam"
-        android:text="@string/remove" />
     
     <ListView
         android:id="@+id/@android:id/list"
@@ -100,5 +90,15 @@
         android:layout_toLeftOf="@+id/cancelEditGameButton"
         android:onClick="onDoneEditGameButton"
         android:text="@string/done" />
+
+    <Button
+        android:id="@+id/removeTeam"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/doneEditGameButton"
+        android:layout_alignBottom="@+id/doneEditGameButton"
+        android:layout_alignLeft="@+id/@android:id/list"
+        android:text="@string/removeSelectedTeams" />
 
 </RelativeLayout>

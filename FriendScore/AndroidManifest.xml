@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.prnk.friendscore.ScoreboardActivity"
+            android:name="com.prnk.friendscore.DashboardActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="CreateActivity"></activity>
+        <activity android:name="com.prnk.friendscore.EditActivity"></activity>
     </application>
 
 </manifest>

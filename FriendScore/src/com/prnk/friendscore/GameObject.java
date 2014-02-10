@@ -1,6 +1,7 @@
 package com.prnk.friendscore;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameObject {
 	private long id;
@@ -90,5 +91,14 @@ public class GameObject {
 			}
 		}
 		return false;
+	}
+	
+	public static GameObject GetGameByName(List<GameObject> games, String title) {
+		for(GameObject game : games) {
+			if(game.Title().equals(title)) {
+				return game;
+			}
+		}
+		return null;
 	}
 }

@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
-    android:weightSum="10" 
     android:padding="6dip" >
 
     <CheckBox
         android:id="@+id/teamCheckBox"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
         android:focusable="false"
         android:textSize="20sp"
-        android:layout_weight="9"
         android:focusableInTouchMode="false" />
-    
-    <Button
-        android:id="@+id/editTeamName"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="35sp"
-        android:text="Edit" />
 
+    <ImageButton
+        android:contentDescription="@string/editTeamContentDescription"
+        android:id="@+id/editTeamName"
+        style="@style/AppBaseTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent" 
+        android:src="@drawable/ic_action_edit" />
 	
-</LinearLayout>
+</RelativeLayout>

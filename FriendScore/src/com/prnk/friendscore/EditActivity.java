@@ -13,24 +13,38 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 
-public class CreateActivity extends ListActivity {
+public class EditActivity extends ListActivity {
     private GameObject currentGame;		//current game being edited or created
     private TeamListAdapter adapter;	//custom list adapter
     private DataBaseWrapper dbwrapper;	//database wrapper
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		currentGame = new GameObject();
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.create);
-		getActionBar().setTitle(R.string.scoreboardNewGame);
+		setContentView(R.layout.edit_game);
+		getActionBar().setTitle(R.string.editScoreboard);
+
 		dbwrapper = new DataBaseWrapper(this);
+		
+		Bundle b = getIntent().getExtras();
+		if(b != null) {
+			int gameId = b.getInt("EDIT_GAME_ID");
+			currentGame = dbwrapper.getGameObject(gameId);
+			
+			//populate fields
+			EditText titleEdit = (EditText) findViewById(R.id.editTitle);
+			titleEdit.setText(currentGame.Title());
+		} else {
+			currentGame = new GameObject();
+		}
+		
 		//set up the list view and the buttons
-		setupListView();
-		setupRemoveButton();
+		SetupListView();
+		SetupRemoveButton();
 	}
 	
 	//Displays the dialog for entering or editing a team name
@@ -94,7 +108,7 @@ public class CreateActivity extends ListActivity {
 		}
 	}
 	
-	private void setupRemoveButton() {
+	private void SetupRemoveButton() {
 		Button remove = (Button) findViewById(R.id.removeTeam);
 		remove.setOnClickListener(new Button.OnClickListener() {
 		   @Override
@@ -105,7 +119,7 @@ public class CreateActivity extends ListActivity {
 		});	  
 	}
 	
-	private void setupListView() {
+	private void SetupListView() {
 		getListView().setItemsCanFocus(false);
 		getListView().setTextFilterEnabled(true);
 		adapter = new TeamListAdapter(this, R.layout.checkboxed_listview_item, currentGame);
@@ -134,7 +148,7 @@ public class CreateActivity extends ListActivity {
 		@Override
 		public boolean isEmpty () {
 			return game.teams.isEmpty();
-		}
+		} 
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -159,7 +173,7 @@ public class CreateActivity extends ListActivity {
 			    box.setText(game.Team(position).Name());
 			    convertView.setTag(box);
 			    
-			    Button edit = (Button) convertView.findViewById(R.id.editTeamName);
+			    ImageButton edit = (ImageButton) convertView.findViewById(R.id.editTeamName);
 			    edit.setOnClickListener(new Button.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -183,7 +197,7 @@ public class CreateActivity extends ListActivity {
 				    box.setText(game.Team(position).Name());
 				    convertView.setTag(box);
 				    
-				    Button edit = (Button) convertView.findViewById(R.id.editTeamName);
+				    ImageButton edit = (ImageButton) convertView.findViewById(R.id.editTeamName);
 				    edit.setOnClickListener(new Button.OnClickListener() {
 						@Override
 						public void onClick(View v) {
