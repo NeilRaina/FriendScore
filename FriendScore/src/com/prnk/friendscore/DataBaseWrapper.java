@@ -344,5 +344,85 @@ public class DataBaseWrapper extends SQLiteOpenHelper {
 	    return player;
 	}
 
+	/*
+	 * This is the start of the UPDATE operations
+	 */
+	//Update a row in GameTable corresponding to game name
+	public int updateGameName(GameObject g) {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	 
+	    ContentValues values = new ContentValues();
+	    values.put(keyGameName, g.Title());
+	 
+	    // updating row
+	    return db.update(gamesTable, values, keyId + " = ?",
+	            new String[] { String.valueOf(g.GetId()) });
+	}
+	
+	//Update a row in teamGameTable corresponding to team name
+	public int updateTeamName(TeamObject t) {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	 
+	    ContentValues values = new ContentValues();
+	    values.put(keyTeamName, t.Name());
+	 
+	    // updating row
+	    return db.update(teamsGamesTable, values, keyId + " = ?",
+	            new String[] { String.valueOf(t.GetId()) });
+	}
+		
+	//Update a row in scoresTable
+	public int updateScore(ScoreObject s) {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	 
+	    ContentValues values = new ContentValues();
+	    values.put(keyKills, s.Score());
+	 
+	    // updating row
+	    return db.update(scoresTable, values, keyId + " = ?",
+	            new String[] { String.valueOf(s.GetId()) });
+	}
+		
+	
+	/*
+	 * This is the start of the DELETE operations
+	 */
+	//Delete a team -> removes row(s) in teamGamesTable, teamPlayerTable, playerTable
+	//NOTE: Assumption made that each team's players are only on that team
+	public void deleteTeam(long teamID) {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    db.delete(teamsGamesTable, keyTeamId + " = ?",
+	            new String[] { String.valueOf(teamID) });
+	    
+	    String playersQuery = "SELECT  * FROM " + teamsPlayersTable + " WHERE "
+	            + keyTeamId + " = " + teamID;
+        	 
+	    Cursor c = db.rawQuery(playersQuery, null);
+	 
+	    // looping through all rows and deleting player
+	    if (c.moveToFirst()) {
+	        do {
+	        	this.deletePlayer(c.getLong((c.getColumnIndex(keyPlayersId))));
+	        } while (c.moveToNext());
+	    }
+	    
+	    db.delete(teamsPlayersTable, keyTeamId + " = ?",
+	            new String[] { String.valueOf(teamID) });
+	}
+	
+	//Delete a row in the scoresTable
+	public void deleteScore(long scoreID) {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    db.delete(scoresTable, keyId + " = ?",
+	            new String[] { String.valueOf(scoreID) });
+	}
+	
+	//Delete a row in the playersTable
+	public void deletePlayer(long playerID) {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    db.delete(playersTable, keyId + " = ?",
+	            new String[] { String.valueOf(playerID) });
+	}
+
 
 }
